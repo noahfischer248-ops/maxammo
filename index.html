@@ -551,6 +551,22 @@
 
         camera.position.set(0, 1.5, 8);
         camera.lookAt(0, -0.5, 0);
+        
+        // Add CA section after canvas loads
+        window.addEventListener('DOMContentLoaded', function() {
+            const canvasContainer = document.getElementById('canvas-container');
+            const caSection = document.createElement('div');
+            caSection.innerHTML = `
+                <div style="text-align: center; padding: 20px 20px; margin: 20px auto; max-width: 700px;">
+                    <h3 style="color: #FFD700; font-size: 1.3rem; margin-bottom: 12px; letter-spacing: 2px;">CONTRACT ADDRESS</h3>
+                    <div onclick="copyCA()" style="background: #1a1a1a; display: inline-block; padding: 12px 20px; border: 2px solid #FFD700; border-radius: 8px; cursor: pointer; transition: transform 0.2s;">
+                        <code id="ca-text" style="color: #FFA500; font-size: 0.95rem;">7JqtB5X7kNvuCusgUEC8ZYGCPD9RMYzUNjXzmMUMpump</code>
+                    </div>
+                    <p id="copy-feedback" style="color: #00FF00; margin-top: 10px; font-size: 0.9rem; visibility: hidden;">Copied!</p>
+                </div>
+            `;
+            canvasContainer.insertAdjacentElement('afterend', caSection);
+        });
 
         // Animation
         let glowPulse = 0;
@@ -654,10 +670,10 @@
             navigator.clipboard.writeText(caText).then(() => {
                 // Show feedback
                 const feedback = document.getElementById('copy-feedback');
-                feedback.style.display = 'block';
+                feedback.style.visibility = 'visible';
                 
                 setTimeout(() => {
-                    feedback.style.display = 'none';
+                    feedback.style.visibility = 'hidden';
                 }, 2000);
             }).catch(err => {
                 // Fallback for older browsers
@@ -672,10 +688,10 @@
                 
                 // Show feedback
                 const feedback = document.getElementById('copy-feedback');
-                feedback.style.display = 'block';
+                feedback.style.visibility = 'visible';
                 
                 setTimeout(() => {
-                    feedback.style.display = 'none';
+                    feedback.style.visibility = 'hidden';
                 }, 2000);
             });
         }
