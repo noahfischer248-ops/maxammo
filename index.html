@@ -270,6 +270,11 @@
         <p class="tagline">Paychecks = Max Ammo for Crypto</p>
     </div>
 
+    <!-- Audio element for MAX AMMO sound -->
+    <audio id="maxAmmoSound" preload="auto">
+        <source src="demonic_announcer_max_ammo_bo.mp3" type="audio/mpeg">
+    </audio>
+
     <div id="canvas-container">
         <div class="hint">🎮 Click for MAX AMMO! 🎮</div>
     </div>
@@ -467,6 +472,13 @@
 
         // Click handler
         container.addEventListener('click', function() {
+            // Play sound effect
+            const audio = document.getElementById('maxAmmoSound');
+            if (audio) {
+                audio.currentTime = 0; // Reset to start
+                audio.play().catch(e => console.log('Audio play failed:', e));
+            }
+            
             // Create and show "MAX AMMO!" text
             const audioText = document.createElement('div');
             audioText.className = 'audio-text';
@@ -499,6 +511,13 @@
         // Handle buy button click
         function handleBuyClick(event) {
             event.preventDefault();
+            
+            // Play sound effect
+            const audio = document.getElementById('maxAmmoSound');
+            if (audio) {
+                audio.currentTime = 0; // Reset to start
+                audio.play().catch(e => console.log('Audio play failed:', e));
+            }
             
             // Create and show "MAX AMMO!" text
             const audioText = document.createElement('div');
