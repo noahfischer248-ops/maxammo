@@ -398,6 +398,17 @@
     <div class="launch-section">
         <h2 style="color: #FFD700; font-size: 2.5rem; margin-bottom: 30px;">PAYCHECK JUST HIT?</h2>
         <p style="color: #FFA500; font-size: 1.3rem; margin-bottom: 40px;">Time to reload! Your MAX AMMO just spawned!</p>
+        
+        <!-- Contract Address Section - Right above buy button -->
+        <div class="ca-container">
+            <div class="ca-label">CONTRACT ADDRESS:</div>
+            <div class="ca-box" onclick="copyCA()">
+                <span id="ca-text">7JqtB5X7kNvuCusgUEC8ZYGCPD9RMYzUNjXzmMUMpump</span>
+                <span class="copy-icon">📋</span>
+            </div>
+            <div id="copy-feedback" class="copy-feedback">Copied!</div>
+        </div>
+        
         <button class="max-ammo-button" onclick="handleBuyClick(event)">
             <span class="button-glow"></span>
             <span class="button-text">CLICK TO BUY $AMMO</span>
