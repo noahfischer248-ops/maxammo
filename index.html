@@ -81,21 +81,49 @@
         }
 
         #canvas-container:hover .hint {
-            opacity: 1;
+            animation: hintPulseFast 0.5s ease-in-out infinite;
         }
 
         .hint {
             position: absolute;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px 20px;
-            border-radius: 25px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            padding: 15px 35px;
+            border-radius: 10px;
             border: 2px solid #FFD700;
-            opacity: 0.7;
-            transition: opacity 0.3s;
+            transition: all 0.3s;
             z-index: 10;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 
+                0 5px 20px rgba(255, 215, 0, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            animation: hintPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes hintPulse {
+            0%, 100% { 
+                box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+            }
+            50% { 
+                box-shadow: 0 5px 30px rgba(255, 215, 0, 0.7);
+            }
+        }
+
+        @keyframes hintPulseFast {
+            0%, 100% { 
+                transform: translateX(-50%) scale(1);
+                box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+            }
+            50% { 
+                transform: translateX(-50%) scale(1.1);
+                box-shadow: 0 8px 40px rgba(255, 215, 0, 0.8);
+            }
         }
 
         /* Info Section */
@@ -141,23 +169,68 @@
             background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1), transparent);
         }
 
-        .launch-button {
+        .max-ammo-button {
+            position: relative;
             display: inline-block;
-            padding: 20px 60px;
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
+            padding: 25px 70px;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
             color: #000;
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
+            border: 3px solid #FFD700;
+            border-radius: 10px;
+            font-weight: 900;
             text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Arial Black', sans-serif;
             transition: all 0.3s;
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+            box-shadow: 
+                0 10px 30px rgba(255, 215, 0, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            overflow: hidden;
         }
 
-        .launch-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.6);
+        .button-glow {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+            border-radius: 10px;
+            opacity: 0.7;
+            z-index: -1;
+            animation: buttonPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% { 
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        }
+
+        .button-text {
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .max-ammo-button:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 
+                0 15px 50px rgba(255, 215, 0, 0.6),
+                inset 0 2px 4px rgba(255, 255, 255, 0.5);
+            background: linear-gradient(135deg, #FFD700, #FFB300, #FFA500);
+        }
+
+        .max-ammo-button:active {
+            transform: scale(1.05) translateY(-2px);
         }
 
         /* Audio feedback */
@@ -231,9 +304,12 @@
 
     <div class="launch-section">
         <h2 style="color: #FFD700; font-size: 2.5rem; margin-bottom: 30px;">PAYCHECK JUST HIT?</h2>
-        <p style="color: #FFA500; font-size: 1.3rem; margin-bottom: 30px;">Time to reload! Your MAX AMMO just spawned!</p>
-        <a href="#" class="launch-button" onclick="handleBuyClick(event)">CLICK TO BUY $MAX</a>
-        <div style="margin-top: 40px; padding: 30px; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 2px solid rgba(255, 215, 0, 0.3);">
+        <p style="color: #FFA500; font-size: 1.3rem; margin-bottom: 40px;">Time to reload! Your MAX AMMO just spawned!</p>
+        <button class="max-ammo-button" onclick="handleBuyClick(event)">
+            <span class="button-glow"></span>
+            <span class="button-text">CLICK TO BUY $MAX</span>
+        </button>
+        <div style="margin-top: 50px; padding: 30px; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 2px solid rgba(255, 215, 0, 0.3);">
             <h3 style="color: #FFD700; font-size: 1.8rem; margin-bottom: 20px;">THE PAYCHECK PHILOSOPHY</h3>
             <p style="color: #ddd; font-size: 1.1rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
                 Think about it: In COD Zombies, you're desperately waiting for that MAX AMMO drop to keep going. 
