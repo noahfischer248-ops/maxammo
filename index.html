@@ -232,7 +232,7 @@
             pointer-events: none;
             opacity: 0;
             z-index: 1000;
-            animation: maxAmmoText 1s ease-out;
+            animation: maxAmmoText 2.5s ease-out;
         }
 
         @keyframes maxAmmoText {
@@ -240,9 +240,13 @@
                 opacity: 0;
                 transform: translate(-50%, -50%) scale(0.5);
             }
-            50% {
+            20% {
                 opacity: 1;
                 transform: translate(-50%, -50%) scale(1.2);
+            }
+            80% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
             }
             100% {
                 opacity: 0;
@@ -281,15 +285,15 @@
 
     <div class="info-section">
         <div class="info-card">
-            <h2>💰 PAYCHECK = MAX AMMO</h2>
+            <h2>PAYCHECK = MAX AMMO</h2>
             <p>Every paycheck is a MAX AMMO drop for your crypto arsenal. When that direct deposit hits, you're fully reloaded and ready to invest. Turn your 9-to-5 grind into crypto ammunition!</p>
         </div>
         <div class="info-card">
-            <h2>🎯 RELOAD PORTFOLIO</h2>
+            <h2>RELOAD PORTFOLIO</h2>
             <p>Just got paid? That's your MAX AMMO moment! Stock up on crypto while you're fully loaded. Every paycheck is another chance to fill your bags before the next wave.</p>
         </div>
         <div class="info-card">
-            <h2>⚡ NEVER RUN DRY</h2>
+            <h2>NEVER RUN DRY</h2>
             <p>Biweekly? Monthly? Doesn't matter - each paycheck is a power-up spawn. Time your investments with your MAX AMMO drops and keep firing at opportunities!</p>
         </div>
     </div>
@@ -497,7 +501,7 @@
             
             setTimeout(() => {
                 audioText.remove();
-            }, 1000);
+            }, 2500);
         });
 
         // Handle resize
@@ -540,7 +544,7 @@
                 audioText.remove();
                 // Replace with your actual token purchase URL
                 window.location.href = 'https://your-token-site.com';
-            }, 1500);
+            }, 2500);
         }
     </script>
 </body>
