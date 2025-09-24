@@ -560,7 +560,7 @@
                 <div style="text-align: center; padding: 20px 20px; margin: 20px auto; max-width: 700px;">
                     <h3 style="color: #FFD700; font-size: 1.3rem; margin-bottom: 12px; letter-spacing: 2px;">CONTRACT ADDRESS</h3>
                     <div onclick="copyCA()" style="background: #1a1a1a; display: inline-block; padding: 12px 20px; border: 2px solid #FFD700; border-radius: 8px; cursor: pointer; transition: transform 0.2s;">
-                        <code id="ca-text" style="color: #FFA500; font-size: 0.95rem;">7JqtB5X7kNvuCusgUEC8ZYGCPD9RMYzUNjXzmMUMpump</code>
+                        <code id="ca-text" style="color: #FFA500; font-size: 0.95rem;">LAUNCHING SOON - CA TBA</code>
                     </div>
                     <p id="copy-feedback" style="color: #00FF00; margin-top: 10px; font-size: 0.9rem; visibility: hidden;">Copied!</p>
                 </div>
@@ -657,14 +657,19 @@
             // Wait for animation then redirect
             setTimeout(() => {
                 audioText.remove();
-                // Redirect to Pump.fun with the contract address
-                window.location.href = 'https://pump.fun/7JqtB5X7kNvuCusgUEC8ZYGCPD9RMYzUNjXzmMUMpump';
+                // Redirect to Pump.fun - PLACEHOLDER URL
+                window.location.href = 'https://pump.fun';
             }, 2500);
         }
         
         // Copy CA to clipboard
         function copyCA() {
             const caText = document.getElementById('ca-text').innerText;
+            
+            // Don't copy if it's the placeholder
+            if (caText === 'LAUNCHING SOON - CA TBA') {
+                return;
+            }
             
             // Copy to clipboard
             navigator.clipboard.writeText(caText).then(() => {
@@ -698,4 +703,3 @@
     </script>
 </body>
 </html>
-
