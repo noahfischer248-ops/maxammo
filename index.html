@@ -113,6 +113,98 @@
             }
         }
 
+        /* Contract Address Section */
+        .ca-container {
+            text-align: center;
+            margin: 40px auto;
+            padding: 20px;
+            max-width: 600px;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.05), transparent);
+        }
+
+        .ca-label {
+            color: #FFD700;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .ca-box {
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid #FFD700;
+            border-radius: 10px;
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .ca-box:hover {
+            background: rgba(255, 215, 0, 0.15);
+            box-shadow: 0 5px 30px rgba(255, 215, 0, 0.5);
+            transform: scale(1.02);
+        }
+
+        #ca-text {
+            color: #FFA500;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            word-break: break-all;
+            flex: 1;
+            text-shadow: 0 0 5px rgba(255, 165, 0, 0.5);
+        }
+
+        .copy-icon {
+            font-size: 1.8rem;
+            margin-left: 15px;
+            transition: transform 0.2s;
+        }
+
+        .ca-box:hover .copy-icon {
+            transform: scale(1.2);
+        }
+
+        .copy-feedback {
+            color: #00FF00;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .copy-feedback.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .ca-container {
+                margin: 30px 10px;
+                padding: 15px;
+            }
+            
+            #ca-text {
+                font-size: 1rem;
+            }
+            
+            .ca-box {
+                padding: 15px 20px;
+            }
+            
+            .ca-label {
+                font-size: 1.2rem;
+            }
+        }
+
         /* Info Section */
         .info-section {
             max-width: 1200px;
@@ -285,7 +377,7 @@
     </audio>
 
     <div id="canvas-container">
-        <div class="hint">Click for MAX AMMO!</div>
+        <div class="hint">🎮 Click for MAX AMMO! 🎮</div>
     </div>
 
     <div class="info-section">
@@ -308,7 +400,7 @@
         <p style="color: #FFA500; font-size: 1.3rem; margin-bottom: 40px;">Time to reload! Your MAX AMMO just spawned!</p>
         <button class="max-ammo-button" onclick="handleBuyClick(event)">
             <span class="button-glow"></span>
-            <span class="button-text">CLICK TO BUY $MAX</span>
+            <span class="button-text">CLICK TO BUY $AMMO</span>
         </button>
         <div style="margin-top: 50px; padding: 30px; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 2px solid rgba(255, 215, 0, 0.3);">
             <h3 style="color: #FFD700; font-size: 1.8rem; margin-bottom: 20px;">THE PAYCHECK PHILOSOPHY</h3>
@@ -547,9 +639,43 @@
             // Wait for animation then redirect
             setTimeout(() => {
                 audioText.remove();
-                // Replace with your actual token purchase URL
-                window.location.href = 'https://your-token-site.com';
+                // Redirect to Pump.fun with the contract address
+                window.location.href = 'https://pump.fun/7JqtB5X7kNvuCusgUEC8ZYGCPD9RMYzUNjXzmMUMpump';
             }, 2500);
+        }
+        
+        // Copy CA to clipboard
+        function copyCA() {
+            const caText = document.getElementById('ca-text').innerText;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(caText).then(() => {
+                // Show feedback
+                const feedback = document.getElementById('copy-feedback');
+                feedback.classList.add('show');
+                
+                setTimeout(() => {
+                    feedback.classList.remove('show');
+                }, 2000);
+            }).catch(err => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = caText;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                // Show feedback
+                const feedback = document.getElementById('copy-feedback');
+                feedback.classList.add('show');
+                
+                setTimeout(() => {
+                    feedback.classList.remove('show');
+                }, 2000);
+            });
         }
     </script>
 </body>
