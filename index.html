@@ -223,16 +223,21 @@
         /* Audio feedback */
         .audio-text {
             position: fixed;
-            top: 50%;
+            top: 30%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 5rem;
             color: #FFD700;
-            text-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+            text-shadow: 
+                0 0 50px rgba(255, 215, 0, 0.8),
+                0 0 30px rgba(255, 140, 0, 0.6),
+                2px 2px 4px rgba(0, 0, 0, 0.8);
             pointer-events: none;
             opacity: 0;
-            z-index: 1000;
+            z-index: 9999;
             animation: maxAmmoText 2.5s ease-out;
+            font-weight: 900;
+            -webkit-text-stroke: 2px black;
         }
 
         @keyframes maxAmmoText {
@@ -280,7 +285,7 @@
     </audio>
 
     <div id="canvas-container">
-        <div class="hint">🎮 Click for MAX AMMO! 🎮</div>
+        <div class="hint">Click for MAX AMMO!</div>
     </div>
 
     <div class="info-section">
