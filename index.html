@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAX AMMO COIN - The Ultimate Power-Up Token</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Black', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0f1f 50%, #0a0a0a 100%);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(255, 140, 0, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 4rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500, #FF6347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #FFA500;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* 3D Canvas Container */
+        #canvas-container {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        #canvas-container:hover .hint {
+            opacity: 1;
+        }
+
+        .hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid #FFD700;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        /* Info Section */
+        .info-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.05));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            border-color: #FFD700;
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .info-card h2 {
+            color: #FFD700;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .info-card p {
+            color: #ddd;
+            line-height: 1.6;
+        }
+
+        /* Launch Section */
+        .launch-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1), transparent);
+        }
+
+        .launch-button {
+            display: inline-block;
+            padding: 20px 60px;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .launch-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Audio feedback */
+        .audio-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            color: #FFD700;
+            text-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+            pointer-events: none;
+            opacity: 0;
+            z-index: 1000;
+            animation: maxAmmoText 1s ease-out;
+        }
+
+        @keyframes maxAmmoText {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            .tagline {
+                font-size: 1rem;
+            }
+            #canvas-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>MAX AMMO COIN</h1>
+        <p class="tagline">Paychecks = Max Ammo for Crypto</p>
+    </div>
+
+    <div id="canvas-container">
+        <div class="hint">🎮 Click for MAX AMMO! 🎮</div>
+    </div>
+
+    <div class="info-section">
+        <div class="info-card">
+            <h2>💰 PAYCHECK = MAX AMMO</h2>
+            <p>Every paycheck is a MAX AMMO drop for your crypto arsenal. When that direct deposit hits, you're fully reloaded and ready to invest. Turn your 9-to-5 grind into crypto ammunition!</p>
+        </div>
+        <div class="info-card">
+            <h2>🎯 RELOAD YOUR PORTFOLIO</h2>
+            <p>Just got paid? That's your MAX AMMO moment! Stock up on crypto while you're fully loaded. Every paycheck is another chance to fill your bags before the next wave.</p>
+        </div>
+        <div class="info-card">
+            <h2>⚡ NEVER RUN DRY</h2>
+            <p>Biweekly? Monthly? Doesn't matter - each paycheck is a power-up spawn. Time your investments with your MAX AMMO drops and keep firing at opportunities!</p>
+        </div>
+    </div>
+
+    <div class="launch-section">
+        <h2 style="color: #FFD700; font-size: 2.5rem; margin-bottom: 30px;">PAYCHECK JUST HIT?</h2>
+        <p style="color: #FFA500; font-size: 1.3rem; margin-bottom: 30px;">Time to reload! Your MAX AMMO just spawned!</p>
+        <a href="#" class="launch-button" onclick="handleBuyClick(event)">CLICK TO BUY $MAX</a>
+        <div style="margin-top: 40px; padding: 30px; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 2px solid rgba(255, 215, 0, 0.3);">
+            <h3 style="color: #FFD700; font-size: 1.8rem; margin-bottom: 20px;">THE PAYCHECK PHILOSOPHY</h3>
+            <p style="color: #ddd; font-size: 1.1rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
+                Think about it: In COD Zombies, you're desperately waiting for that MAX AMMO drop to keep going. 
+                In real life? That's your paycheck! Every two weeks, every month - BOOM - MAX AMMO drops into your bank account. 
+                Time to reload those crypto bags and keep grinding. Your boss is basically the mystery box, 
+                dropping regular MAX AMMO power-ups so you can keep investing. Use them wisely, soldier!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Three.js setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 500, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        const container = document.getElementById('canvas-container');
+        renderer.setSize(container.clientWidth, 500);
+        container.appendChild(renderer.domElement);
+
+        // Create Max Ammo power-up group
+        const group = new THREE.Group();
+
+        // Main ammo box - BIGGER and yellow/golden military crate
+        const boxGeometry = new THREE.BoxGeometry(4.5, 1.4, 2.2);
+        const boxMaterial = new THREE.MeshPhongMaterial({
+            color: 0xDAB520,
+            emissive: 0xB8860B,
+            emissiveIntensity: 0.2,
+            roughness: 0.6,
+            metalness: 0.2
+        });
+        const mainBox = new THREE.Mesh(boxGeometry, boxMaterial);
+        group.add(mainBox);
+
+        // Angled lid - POSITIVE rotation lifts RIGHT side
+        const lidGeometry = new THREE.BoxGeometry(4.55, 0.45, 2.25);
+        const lidMaterial = new THREE.MeshPhongMaterial({
+            color: 0xC4A000,
+            emissive: 0x8B6914,
+            emissiveIntensity: 0.15,
+            roughness: 0.6,
+            metalness: 0.2
+        });
+        const lid = new THREE.Mesh(lidGeometry, lidMaterial);
+        lid.position.y = 0.8;
+        lid.rotation.z = 0.15; // POSITIVE = RIGHT side goes UP
+        group.add(lid);
+
+        // Dark gap/shadow under lifted RIGHT side
+        const gapGeometry = new THREE.BoxGeometry(0.6, 0.3, 2);
+        const gapMaterial = new THREE.MeshPhongMaterial({
+            color: 0x1A1410,
+            emissive: 0x000000
+        });
+        const gap = new THREE.Mesh(gapGeometry, gapMaterial);
+        gap.position.set(2.15, 0.55, 0);
+        group.add(gap);
+
+        // Text panel on front
+        const panelGeometry = new THREE.BoxGeometry(2.8, 0.7, 0.02);
+        const panelMaterial = new THREE.MeshPhongMaterial({
+            color: 0xB8A020,
+            roughness: 0.8
+        });
+        const panel = new THREE.Mesh(panelGeometry, panelMaterial);
+        panel.position.set(0, 0, 1.11);
+        group.add(panel);
+
+        // Ammo belt coming from RIGHT side where lid is LIFTED
+        const beltLinks = [];
+        const bullets = [];
+        
+        for(let i = 0; i < 26; i++) {
+            // Create belt link
+            const linkGeometry = new THREE.BoxGeometry(0.32, 0.14, 0.42);
+            const linkMaterial = new THREE.MeshPhongMaterial({
+                color: 0x6B5D39,
+                metalness: 0.5,
+                roughness: 0.5
+            });
+            const link = new THREE.Mesh(linkGeometry, linkMaterial);
+            
+            // Belt comes out from RIGHT side gap and curves down
+            const xOffset = 2.3 + (i * 0.33);
+            // Very steep exponential drop
+            const yDrop = Math.pow(i * 0.2, 2.1);
+            
+            // Start at elevated gap height on RIGHT
+            link.position.set(xOffset, 0.6 - yDrop * 0.35, 0);
+            // Rotate to follow the steep curve
+            link.rotation.z = -Math.atan(yDrop * 0.6) - 0.1;
+            
+            // Add slight forward/back variation
+            link.position.z = Math.sin(i * 0.4) * 0.03;
+            
+            beltLinks.push(link);
+            group.add(link);
+            
+            // Create single balanced bullet/cartridge
+            const bulletGeometry = new THREE.CylinderGeometry(0.065, 0.065, 0.52);
+            const bulletMaterial = new THREE.MeshPhongMaterial({
+                color: 0xB8860B,
+                metalness: 0.9,
+                roughness: 0.1
+            });
+            const bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
+            
+            bullet.position.copy(link.position);
+            bullet.position.y += 0.09;
+            bullet.rotation.z = -Math.PI / 2 - Math.atan(yDrop * 0.6) - 0.1;
+            
+            bullets.push(bullet);
+            group.add(bullet);
+        }
+
+        // Add CENTERED golden glow effect
+        const glowGeometry = new THREE.SphereGeometry(6.5, 32, 32);
+        const glowMaterial = new THREE.MeshBasicMaterial({
+            color: 0xFFD700,
+            transparent: true,
+            opacity: 0.07,
+            side: THREE.BackSide
+        });
+        const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+        glow.position.set(1.2, 0, 0); // Center between box and belt on RIGHT side
+        group.add(glow);
+
+        scene.add(group);
+
+        // Lighting setup
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.45);
+        scene.add(ambientLight);
+
+        const keyLight = new THREE.DirectionalLight(0xFFD700, 1.4);
+        keyLight.position.set(5, 5, 5);
+        scene.add(keyLight);
+
+        const fillLight = new THREE.DirectionalLight(0xFFB855, 0.7);
+        fillLight.position.set(-3, 2, 3);
+        scene.add(fillLight);
+
+        const glowLight = new THREE.PointLight(0xFFD700, 1.3, 20);
+        glowLight.position.set(1.2, 0, 2); // Also centered on RIGHT
+        scene.add(glowLight);
+
+        camera.position.set(0, 1.5, 7.5);
+        camera.lookAt(0.8, -0.5, 0);
+
+        // Animation
+        let glowPulse = 0;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Slow rotation
+            group.rotation.y += 0.005;
+            
+            // Gentle floating
+            group.position.y = Math.sin(Date.now() * 0.001) * 0.08;
+            
+            // Pulsing glow
+            glowPulse += 0.02;
+            glow.material.opacity = 0.05 + Math.sin(glowPulse) * 0.02;
+            glowLight.intensity = 1 + Math.sin(glowPulse) * 0.3;
+            
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Click handler
+        container.addEventListener('click', function() {
+            // Create and show "MAX AMMO!" text
+            const audioText = document.createElement('div');
+            audioText.className = 'audio-text';
+            audioText.textContent = 'MAX AMMO!';
+            audioText.style.fontFamily = 'Impact, Arial Black, sans-serif';
+            document.body.appendChild(audioText);
+            
+            // Flash effect
+            glowLight.intensity = 3;
+            glow.material.opacity = 0.15;
+            
+            setTimeout(() => {
+                glowLight.intensity = 1;
+                glow.material.opacity = 0.05;
+            }, 300);
+            
+            setTimeout(() => {
+                audioText.remove();
+            }, 1000);
+        });
+
+        // Handle resize
+        window.addEventListener('resize', function() {
+            const width = container.clientWidth;
+            camera.aspect = width / 500;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, 500);
+        });
+        
+        // Handle buy button click
+        function handleBuyClick(event) {
+            event.preventDefault();
+            
+            // Create and show "MAX AMMO!" text
+            const audioText = document.createElement('div');
+            audioText.className = 'audio-text';
+            audioText.textContent = 'MAX AMMO!';
+            audioText.style.fontFamily = 'Impact, Arial Black, sans-serif';
+            document.body.appendChild(audioText);
+            
+            // Flash the 3D model too
+            glowLight.intensity = 4;
+            glow.material.opacity = 0.2;
+            
+            setTimeout(() => {
+                glowLight.intensity = 1.3;
+                glow.material.opacity = 0.07;
+            }, 300);
+            
+            // Wait for animation then redirect
+            setTimeout(() => {
+                audioText.remove();
+                // Replace with your actual token purchase URL
+                window.location.href = 'https://your-token-site.com';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
