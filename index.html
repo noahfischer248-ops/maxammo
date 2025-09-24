@@ -220,7 +220,7 @@
             <p>Every paycheck is a MAX AMMO drop for your crypto arsenal. When that direct deposit hits, you're fully reloaded and ready to invest. Turn your 9-to-5 grind into crypto ammunition!</p>
         </div>
         <div class="info-card">
-            <h2>🎯 RELOAD YOUR PORTFOLIO</h2>
+            <h2>🎯 RELOAD PORTFOLIO</h2>
             <p>Just got paid? That's your MAX AMMO moment! Stock up on crypto while you're fully loaded. Every paycheck is another chance to fill your bags before the next wave.</p>
         </div>
         <div class="info-card">
@@ -280,17 +280,18 @@
         });
         const lid = new THREE.Mesh(lidGeometry, lidMaterial);
         lid.position.y = 0.8;
-        lid.rotation.z = 0.15; // POSITIVE = RIGHT side goes UP
+        lid.rotation.z = 0.12; // Slightly reduced angle for stability
         group.add(lid);
 
-        // Dark gap/shadow under lifted RIGHT side
-        const gapGeometry = new THREE.BoxGeometry(0.6, 0.3, 2);
-        const gapMaterial = new THREE.MeshPhongMaterial({
-            color: 0x1A1410,
-            emissive: 0x000000
+        // Simplified gap - just darkness where ammo exits
+        const gapGeometry = new THREE.BoxGeometry(0.4, 0.2, 1.8);
+        const gapMaterial = new THREE.MeshBasicMaterial({
+            color: 0x000000,
+            opacity: 0.8,
+            transparent: true
         });
         const gap = new THREE.Mesh(gapGeometry, gapMaterial);
-        gap.position.set(2.15, 0.55, 0);
+        gap.position.set(2.2, 0.5, 0);
         group.add(gap);
 
         // Text panel on front
@@ -303,11 +304,11 @@
         panel.position.set(0, 0, 1.11);
         group.add(panel);
 
-        // Ammo belt coming from RIGHT side where lid is LIFTED
+        // Ammo belt - simplified start position
         const beltLinks = [];
         const bullets = [];
         
-        for(let i = 0; i < 26; i++) {
+        for(let i = 0; i < 24; i++) {
             // Create belt link
             const linkGeometry = new THREE.BoxGeometry(0.32, 0.14, 0.42);
             const linkMaterial = new THREE.MeshPhongMaterial({
@@ -317,18 +318,15 @@
             });
             const link = new THREE.Mesh(linkGeometry, linkMaterial);
             
-            // Belt comes out from RIGHT side gap and curves down
-            const xOffset = 2.3 + (i * 0.33);
-            // Very steep exponential drop
-            const yDrop = Math.pow(i * 0.2, 2.1);
+            // Smoother curve from exit point
+            const xOffset = 2.35 + (i * 0.34);
+            // Smoother exponential drop
+            const yDrop = i === 0 ? 0 : Math.pow(i * 0.18, 2.0);
             
-            // Start at elevated gap height on RIGHT
-            link.position.set(xOffset, 0.6 - yDrop * 0.35, 0);
-            // Rotate to follow the steep curve
-            link.rotation.z = -Math.atan(yDrop * 0.6) - 0.1;
-            
-            // Add slight forward/back variation
-            link.position.z = Math.sin(i * 0.4) * 0.03;
+            // Start cleanly at gap
+            link.position.set(xOffset, 0.5 - yDrop * 0.4, 0);
+            // Simpler rotation
+            link.rotation.z = -yDrop * 0.15;
             
             beltLinks.push(link);
             group.add(link);
@@ -344,7 +342,7 @@
             
             bullet.position.copy(link.position);
             bullet.position.y += 0.09;
-            bullet.rotation.z = -Math.PI / 2 - Math.atan(yDrop * 0.6) - 0.1;
+            bullet.rotation.z = -Math.PI / 2 - yDrop * 0.15;
             
             bullets.push(bullet);
             group.add(bullet);
