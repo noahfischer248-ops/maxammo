@@ -257,8 +257,8 @@
         // Create Max Ammo power-up group
         const group = new THREE.Group();
 
-        // Main ammo box - BIGGER and yellow/golden military crate
-        const boxGeometry = new THREE.BoxGeometry(4.5, 1.4, 2.2);
+        // Main ammo box - EXTENDED BOTTOM yellow/golden military crate
+        const boxGeometry = new THREE.BoxGeometry(5, 2, 2.5);
         const boxMaterial = new THREE.MeshPhongMaterial({
             color: 0xDAB520,
             emissive: 0xB8860B,
@@ -270,7 +270,7 @@
         group.add(mainBox);
 
         // Angled lid - POSITIVE rotation lifts RIGHT side
-        const lidGeometry = new THREE.BoxGeometry(4.55, 0.45, 2.25);
+        const lidGeometry = new THREE.BoxGeometry(5.05, 0.5, 2.55);
         const lidMaterial = new THREE.MeshPhongMaterial({
             color: 0xC4A000,
             emissive: 0x8B6914,
@@ -279,29 +279,29 @@
             metalness: 0.2
         });
         const lid = new THREE.Mesh(lidGeometry, lidMaterial);
-        lid.position.y = 0.8;
+        lid.position.y = 1.1;
         lid.rotation.z = 0.12; // Slightly reduced angle for stability
         group.add(lid);
 
         // Simplified gap - just darkness where ammo exits
-        const gapGeometry = new THREE.BoxGeometry(0.4, 0.2, 1.8);
+        const gapGeometry = new THREE.BoxGeometry(0.45, 0.25, 2);
         const gapMaterial = new THREE.MeshBasicMaterial({
             color: 0x000000,
             opacity: 0.8,
             transparent: true
         });
         const gap = new THREE.Mesh(gapGeometry, gapMaterial);
-        gap.position.set(2.2, 0.5, 0);
+        gap.position.set(2.45, 0.75, 0);
         group.add(gap);
 
         // Text panel on front
-        const panelGeometry = new THREE.BoxGeometry(2.8, 0.7, 0.02);
+        const panelGeometry = new THREE.BoxGeometry(3.2, 0.8, 0.02);
         const panelMaterial = new THREE.MeshPhongMaterial({
             color: 0xB8A020,
             roughness: 0.8
         });
         const panel = new THREE.Mesh(panelGeometry, panelMaterial);
-        panel.position.set(0, 0, 1.11);
+        panel.position.set(0, 0, 1.26);
         group.add(panel);
 
         // Ammo belt - simplified start position
@@ -310,7 +310,7 @@
         
         for(let i = 0; i < 24; i++) {
             // Create belt link
-            const linkGeometry = new THREE.BoxGeometry(0.32, 0.14, 0.42);
+            const linkGeometry = new THREE.BoxGeometry(0.36, 0.16, 0.46);
             const linkMaterial = new THREE.MeshPhongMaterial({
                 color: 0x6B5D39,
                 metalness: 0.5,
@@ -319,12 +319,12 @@
             const link = new THREE.Mesh(linkGeometry, linkMaterial);
             
             // Smoother curve from exit point
-            const xOffset = 2.35 + (i * 0.34);
+            const xOffset = 2.6 + (i * 0.37);
             // Smoother exponential drop
             const yDrop = i === 0 ? 0 : Math.pow(i * 0.18, 2.0);
             
             // Start cleanly at gap
-            link.position.set(xOffset, 0.5 - yDrop * 0.4, 0);
+            link.position.set(xOffset, 0.75 - yDrop * 0.4, 0);
             // Simpler rotation
             link.rotation.z = -yDrop * 0.15;
             
@@ -332,7 +332,7 @@
             group.add(link);
             
             // Create single balanced bullet/cartridge
-            const bulletGeometry = new THREE.CylinderGeometry(0.065, 0.065, 0.52);
+            const bulletGeometry = new THREE.CylinderGeometry(0.07, 0.07, 0.58);
             const bulletMaterial = new THREE.MeshPhongMaterial({
                 color: 0xB8860B,
                 metalness: 0.9,
@@ -341,7 +341,7 @@
             const bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
             
             bullet.position.copy(link.position);
-            bullet.position.y += 0.09;
+            bullet.position.y += 0.1;
             bullet.rotation.z = -Math.PI / 2 - yDrop * 0.15;
             
             bullets.push(bullet);
@@ -349,7 +349,7 @@
         }
 
         // Add CENTERED golden glow effect
-        const glowGeometry = new THREE.SphereGeometry(7, 32, 32);
+        const glowGeometry = new THREE.SphereGeometry(7.5, 32, 32);
         const glowMaterial = new THREE.MeshBasicMaterial({
             color: 0xFFD700,
             transparent: true,
@@ -378,7 +378,7 @@
         glowLight.position.set(0, 0, 2); // Centered
         scene.add(glowLight);
 
-        camera.position.set(0, 1.5, 7.5);
+        camera.position.set(0, 1.5, 8);
         camera.lookAt(0, -0.5, 0);
 
         // Animation
