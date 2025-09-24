@@ -390,7 +390,7 @@
             <p>Just got paid? That's your MAX AMMO moment! Stock up on crypto while you're fully loaded. Every paycheck is another chance to fill your bags before the next wave.</p>
         </div>
         <div class="info-card">
-            <h2>NEVER RUN DRY</h2>
+            <h2>NEVER<br>RUN DRY</h2>
             <p>Biweekly? Monthly? Doesn't matter - each paycheck is a power-up spawn. Time your investments with your MAX AMMO drops and keep firing at opportunities!</p>
         </div>
     </div>
@@ -399,20 +399,11 @@
         <h2 style="color: #FFD700; font-size: 2.5rem; margin-bottom: 30px;">PAYCHECK JUST HIT?</h2>
         <p style="color: #FFA500; font-size: 1.3rem; margin-bottom: 40px;">Time to reload! Your MAX AMMO just spawned!</p>
         
-        <!-- Contract Address Section - Right above buy button -->
-        <div class="ca-container">
-            <div class="ca-label">CONTRACT ADDRESS:</div>
-            <div class="ca-box" onclick="copyCA()">
-                <span id="ca-text">7JqtB5X7kNvuCusgUEC8ZYGCPD9RMYzUNjXzmMUMpump</span>
-                <span class="copy-icon">📋</span>
-            </div>
-            <div id="copy-feedback" class="copy-feedback">Copied!</div>
-        </div>
-        
         <button class="max-ammo-button" onclick="handleBuyClick(event)">
             <span class="button-glow"></span>
             <span class="button-text">CLICK TO BUY $AMMO</span>
         </button>
+        
         <div style="margin-top: 50px; padding: 30px; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 2px solid rgba(255, 215, 0, 0.3);">
             <h3 style="color: #FFD700; font-size: 1.8rem; margin-bottom: 20px;">THE PAYCHECK PHILOSOPHY</h3>
             <p style="color: #ddd; font-size: 1.1rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
@@ -663,10 +654,10 @@
             navigator.clipboard.writeText(caText).then(() => {
                 // Show feedback
                 const feedback = document.getElementById('copy-feedback');
-                feedback.classList.add('show');
+                feedback.style.display = 'block';
                 
                 setTimeout(() => {
-                    feedback.classList.remove('show');
+                    feedback.style.display = 'none';
                 }, 2000);
             }).catch(err => {
                 // Fallback for older browsers
@@ -681,10 +672,10 @@
                 
                 // Show feedback
                 const feedback = document.getElementById('copy-feedback');
-                feedback.classList.add('show');
+                feedback.style.display = 'block';
                 
                 setTimeout(() => {
-                    feedback.classList.remove('show');
+                    feedback.style.display = 'none';
                 }, 2000);
             });
         }
